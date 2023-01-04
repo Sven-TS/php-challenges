@@ -5,6 +5,8 @@ class ChangeDetectionCache
     public const CHANGE_DETECTION_CACHE_KEY_SUFFIX = '_rowhashes';
     public const REDIS_KEY_BULK_SIZE = 100000;
 
+    private ?array $loadedCache = null;
+
     public function __construct(private Client $redisCache)
     {
     }
