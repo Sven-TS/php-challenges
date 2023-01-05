@@ -5,8 +5,6 @@ class ChangeDetectionCache
     public const CHANGE_DETECTION_CACHE_KEY_SUFFIX = '_rowhashes';
     public const REDIS_KEY_BULK_SIZE = 100000;
 
-    private ?array $loadedCache = null;
-
     public function __construct(private Client $redisCache)
     {
     }
@@ -21,18 +19,13 @@ class ChangeDetectionCache
                 $this->redisCache->hmset($redisCacheName, $newHashChunk);
             }
         }
+
+        echo "Cache updated!" . PHP_EOL;
     }
 
     public function deleteRowHashes(string $merchantId): void
     {
         $this->redisCache->del([$this->buildRedisKeyName($merchantId)]);
-    }
-
-    private function lazyLoad(string $merchantId): void
-    {
-        if ($this->loadedCache === null) {
-            $this->loadedCache = $this->redisCache->hgetall($this->buildRedisKeyName($merchantId));
-        }
     }
 
     private function buildRedisKeyName(string $merchantId): string
