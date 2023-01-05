@@ -1,5 +1,6 @@
 <?php
 
 interface FibonacciGeneratorInterface {
-    public function getNextFibonacci(): int;
+    /** @return int[] */
+    public function getFibonacciSequence(int $limit): array;
 }
